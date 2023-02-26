@@ -1,1 +1,0 @@
-# type_script_jira_access
