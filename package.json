@@ -1,0 +1,11 @@
+{
+  "name": "type_script_jira_access",
+  "scripts": {
+    "build" : "tsc test_jira.ts"
+  },
+  "version": "1.0.0",
+  "main": "test_jira.js",
+  "repository": "https://github.com/robcbean/type_script_jira_access",
+  "author": "Roberto Beán <robcbean@gmail.com>",
+  "license": "MIT"
+}
