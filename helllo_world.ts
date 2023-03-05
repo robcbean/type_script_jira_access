@@ -1,13 +1,33 @@
-import JiraApi from 'jira-client'
+import JiraClient = require('jira-client');
 
 
-const jira:JiraApi = new JiraApi(
+const jira:JiraClient = new JiraClient(
   {
     protocol: 'https',
     host: 'robertobean.atlassian.net',
-    username: 'robcbean@gmail.com',
-    apiVersion: '2'
+    username: 'pepe@gmail.com',
+    apiVersion: '2',
+    strictSSL: true
   }
 );
 
-jira.searchJira('Test Access and status in (Open, "In Progress")')
+/*const resultsJira = jira.searchJira('');
+
+resultsJira.then( results => 
+  console.log(results)
+)
+*/
+
+jira.findIssue("Test3").then( issue => { console.log(`Status ${issue.fields.status.name}`)});
+
+console.log("Hello World!!");
+
+
+
+
+
+
+
+
+
+
