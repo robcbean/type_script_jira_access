@@ -1,13 +1,13 @@
-import JiraApi from 'jira-client';
+import JiraApi from 'jira-client'
 
-let message: string = "Hello World!!";
-console.log(message);
 
-var jira = new JiraApi({
+const jira:JiraApi = new JiraApi(
+  {
     protocol: 'https',
-    host: 'jira.somehost.com',
-    username: 'username',
-    password: 'password',
-    apiVersion: '2',
-    strictSSL: true
-  });
+    host: 'robertobean.atlassian.net',
+    username: 'robcbean@gmail.com',
+    apiVersion: '2'
+  }
+);
+
+jira.searchJira('Test Access and status in (Open, "In Progress")')
