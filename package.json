@@ -1,5 +1,5 @@
 {
-  "dependencies": {
-    "jira-client": "^8.2.2"
+  "devDependencies": {
+    "@types/node": "^18.14.6"
   }
 }
