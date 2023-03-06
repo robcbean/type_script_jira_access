@@ -43,7 +43,7 @@ function generateRequestHeader(user_name, user_token) {
     var ret_headers = new Headers();
     ret_headers.append("Content-Type", "application/json");
     ret_headers.append("Accept", "application/json");
-    ret_headers.append("Authorization", generateCredentialString(user_name, user_token));
+    ret_headers.append("Authorization", "Basic ".concat(generateCredentialString(user_name, user_token)));
     return ret_headers;
 }
 function generateSearchURL(user_domain, search_string) {
@@ -61,14 +61,14 @@ function getJiraList(user_domain, user_name, user_token) {
                         method: "GET",
                         headers: generateRequestHeader(user_name, user_token)
                     };
-                    return [4 /*yield*/, fetch(generateSearchURL(user_domain, 'status != "Done" '), requestOptions)];
+                    return [4 /*yield*/, fetch(generateSearchURL(user_domain, 'status!="Done" '), requestOptions)];
                 case 1:
                     response = _a.sent();
                     return [4 /*yield*/, response.json()];
                 case 2:
                     json_value = _a.sent();
                     json_value['issues'].forEach(function (issue) {
-                        ret[issue['key']] = issue['name'];
+                        ret[issue['key']] = issue['fields']['summary'];
                     });
                     return [2 /*return*/, ret];
             }
