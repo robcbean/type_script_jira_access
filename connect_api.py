@@ -15,6 +15,8 @@ headers: dict = {
    "Authorization" : cred
 }
 
+
+
 project_name: str = "TEST"
 url:str = f"https://robertobean.atlassian.net/rest/api/3/search?project={project_name}&limit=1000"
 response = requests.request("GET", url, headers=headers)
