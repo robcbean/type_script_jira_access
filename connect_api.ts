@@ -6,6 +6,8 @@ const base64_string = Buffer.from(credentials, 'ascii').toString('base64');
 const jira_token:string = `Basic ${base64_string}`;
 console.log(jira_token);
 
+
+
 const headers: Headers = new Headers();
 headers.append("Content-Type", "application/json");
 headers.append("Accept", "application/json")
