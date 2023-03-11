@@ -1,6 +1,4 @@
 
-
-
 const credentials:string = `robcbean@gmail.com:${process.env.JIRA_TOKEN}`;
 const base64_string = Buffer.from(credentials, 'ascii').toString('base64');
 const jira_token:string = `Basic ${base64_string}`;
