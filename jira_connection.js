@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,40 +35,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+exports.__esModule = true;
+var axios_1 = require("axios");
 function generateCredentialString(user_name, user_token) {
     var credentials = "".concat(user_name, ":").concat(user_token);
     var ret = Buffer.from(credentials, 'ascii').toString('base64');
     return ret;
 }
 function generateRequestHeader(user_name, user_token) {
-    var ret_headers = new Headers();
-    ret_headers.append("Content-Type", "application/json");
-    ret_headers.append("Accept", "application/json");
-    ret_headers.append("Authorization", "Basic ".concat(generateCredentialString(user_name, user_token)));
+    var ret_headers = {
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Basic ".concat(generateCredentialString(user_name, user_token))
+        }
+    };
     return ret_headers;
 }
-function generateSearchURL(user_domain, search_string) {
-    var ret = "https://".concat(user_domain, "/rest/api/3/search?jql=") + encodeURIComponent(search_string);
+function generateSearchURL(userDomain, searchString) {
+    var ret = "https://".concat(userDomain, "/rest/api/3/search?jql=") + encodeURIComponent(searchString);
     return ret;
 }
-function getJiraList(user_domain, user_name, user_token) {
+function getJiraList(userDomain, userName, userToken) {
     return __awaiter(this, void 0, void 0, function () {
-        var ret, requestOptions, response, json_value;
+        var ret, config, response, jsonValue;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     ret = [];
-                    requestOptions = {
-                        method: "GET",
-                        headers: generateRequestHeader(user_name, user_token)
-                    };
-                    return [4 /*yield*/, fetch(generateSearchURL(user_domain, 'status!="Done" '), requestOptions)];
+                    config = generateRequestHeader(userName, userToken);
+                    return [4 /*yield*/, axios_1["default"].get(generateSearchURL(userDomain, 'status!="Done" '), config)];
                 case 1:
                     response = _a.sent();
-                    return [4 /*yield*/, response.json()];
+                    return [4 /*yield*/, response.data];
                 case 2:
-                    json_value = _a.sent();
-                    json_value['issues'].forEach(function (issue) {
+                    jsonValue = _a.sent();
+                    jsonValue['issues'].forEach(function (issue) {
                         ret[issue['key']] = issue['fields']['summary'];
                     });
                     return [2 /*return*/, ret];

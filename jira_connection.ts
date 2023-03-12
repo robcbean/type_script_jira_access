@@ -1,49 +1,44 @@
+import axios from "axios";
+import { config } from "process";
 
 
-
-function generateCredentialString(user_name:string, user_token:string): string 
+function generateCredentialString(userName:string, userToken:string): string 
 {
-    const credentials:string = `${user_name}:${user_token}`;
+    const credentials:string = `${userName}:${userToken}`;
     const ret:string = Buffer.from(credentials, 'ascii').toString('base64');
     
     return ret;
 }
 
-function generateRequestHeader(user_name:string, user_token:string): Headers
+function generateRequestHeader(userName:string, userToken:string): any
 {
-    let ret_headers: Headers = new Headers();
-
-    ret_headers.append("Content-Type", "application/json");
-    ret_headers.append("Accept", "application/json");
-    ret_headers.append("Authorization", `Basic ${generateCredentialString(user_name,user_token)}`);
-
+    let ret_headers: any = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Accept": "application/json",
+            "Authorization": `Basic ${generateCredentialString(userName,userToken)}`
+        }
+    }
 
     return ret_headers;
 }
 
-function generateSearchURL(user_domain:string, search_string:string): string 
+function generateSearchURL(userDomain:string, searchString:string): string 
 {
-    let ret:string = `https://${user_domain}/rest/api/3/search?jql=`  + encodeURIComponent(search_string);
+    let ret:string = `https://${userDomain}/rest/api/3/search?jql=`  + encodeURIComponent(searchString);
 
     return ret;
 }
 
-async function getJiraList(user_domain:string, user_name:string, user_token:string): Promise<{[key: string]: string}[]>
+async function getJiraList(userDomain:string, userName:string, userToken:string): Promise<{[key: string]: string}[]>
 {
     let ret:{[key: string]: string}[] = [];
-    const requestOptions: RequestInit = {
-        method: "GET",
-        headers: generateRequestHeader(user_name, user_token)
-    };
+    let config:any = generateRequestHeader(userName, userToken);
 
-    const response = await fetch(
-        generateSearchURL(user_domain, 'status!="Done" '),requestOptions
-    );
+    const response = await axios.get(generateSearchURL(userDomain, 'status!="Done" '), config);
+    const jsonValue = await response.data;
 
-    const json_value = await response.json();
-
-
-    json_value['issues'].forEach( issue => {
+    jsonValue['issues'].forEach( issue => {
             ret[issue['key']] = issue['fields']['summary'];
         }
     );
