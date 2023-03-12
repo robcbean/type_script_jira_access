@@ -55,3 +55,6 @@ getJiraList(USER_DOMAIN, USER_NAME, JIRA_TOKEN).then(jira_tasks =>{
 }).catch( error => {
     console.log(console.error());
 });
+
+
+//test
