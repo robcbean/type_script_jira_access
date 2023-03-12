@@ -17,13 +17,10 @@ console.log(search_url);
 var issues = [];
 axios_1["default"].get(search_url, config)
     .then(function (response) {
-    var json_value = response.data();
-    json_value.then(function (json) {
-        json['issues'].forEach(function (issue) {
-            issues.push(issue['key']);
-            console.log(issue['key']);
-            console.log(issues.length);
-        });
+    var json_value = response.data;
+    console.log(json_value);
+    json_value['issues'].forEach(function (element) {
+        console.log("Key : ".concat(element["key"], " "));
     });
 })["catch"](function (error) {
     console.error(error);

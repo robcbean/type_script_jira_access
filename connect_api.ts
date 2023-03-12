@@ -27,17 +27,15 @@ let issues: string [] = [];
 axios.get(search_url, config)
   .then(
     response => {
-       const json_value = response.data();
-       json_value.then(
-         json => 
-          { 
-              json['issues'].forEach(issue => {
-                issues.push(issue['key']);
-                console.log(issue['key']);
-                console.log(issues.length);
-              });
-          }
-       )
+      
+       const json_value = response.data;
+       console.log(json_value);
+
+       json_value['issues'].forEach(element => {
+          console.log(`Key : ${element["key"]} `);
+       });
+       
+       
     }
   )
   .catch(
