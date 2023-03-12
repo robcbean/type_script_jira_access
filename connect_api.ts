@@ -1,23 +1,21 @@
 
+import axios from 'axios';
+
 const credentials:string = `robcbean@gmail.com:${process.env.JIRA_TOKEN}`;
 const base64_string = Buffer.from(credentials, 'ascii').toString('base64');
 const jira_token:string = `Basic ${base64_string}`;
 console.log(jira_token);
 
 
-//Comments 2 ss
 
 
-
-const headers: Headers = new Headers();
-headers.append("Content-Type", "application/json");
-headers.append("Accept", "application/json")
-headers.append("Authorization", jira_token)
-
-const requestOptions: RequestInit = {
-  method: 'GET',
-  headers: headers
-};
+const config = {
+  headers: {
+    "Content-Type" : "application/json",
+    "Accept": "application/json",
+    "Authorization": jira_token
+  }
+}
 
 
 const search_url:string = `https://robertobean.atlassian.net/rest/api/3/search?jql=`  + encodeURIComponent('status!="Done"');
@@ -26,10 +24,10 @@ console.log(search_url);
 
 let issues: string [] = [];
 
-fetch(search_url, requestOptions)
+axios.get(search_url, config)
   .then(
     response => {
-       const json_value = response.json();
+       const json_value = response.data();
        json_value.then(
          json => 
           { 
@@ -48,11 +46,6 @@ fetch(search_url, requestOptions)
           console.error(error);
       }
   );
-
-
-//fetchData("TEST",jira_token)
-//  .then( response => console.log(`Response ${response.data}`) )
-//  .catch( error => console.log(`Error ${error}`));
 
 
 
